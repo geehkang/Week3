@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+  <title>항해일지</title>
+</head>
+<body>
+  <h1>게시글 작성 페이지입니다</h1>
+  <button onclicke="" class = 'nav-link px-2 link-secondary' onclick = "location.href = '/'">글쓰기완료</button>
+<!--  onclick이 post로 데이터 몽고db로 보내는 것도 추가되어야함-->
+<form action = 'write' method="post">  
+<h3>제목: <input name="title"></h3> 
+<h3>작성자: <input name="author"></h3>
+<h3>비밀번호: <input name="password"></h3>
+<h3>내용: </h3>
+  <textarea name="content" rows = "7" cols = "55" name = "description"></textarea>
+  
+<!-- style="width:200px; height:120px;" -->
+<!-- 날짜: placeholder="8자리 숫자로 입력해 주십시오. 예)19880901" -->
+</body>
+</html>
