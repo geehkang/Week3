@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // error 확인방법: .catch()
 const connect = () => {
     mongoose
-    .connect('mongodb://localhost:27017/spa_database')
+    .connect('mongodb://localhost:27017/blog_database')
     .catch(err => 
         console.log(err));
     };
