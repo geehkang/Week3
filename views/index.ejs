@@ -4,21 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
   <title>항해일지</title>
 </head>
 <body>
   <h1>게시글 목록 조회 페이지입니다</h1>
  <p><button onclick="location.href = '/write'" class = 'nav-link px-2 link-secondary'>글쓰기</button></p>
 
-  <form action = "http://admin.neostack.co.kr:8081/process_get" method = "GET">
-    <p><a href = '/write/:'>
+  <form action = "/" method = "GET">
+    <p><a href = '/read/:'>
     title: ???
     author: ???  date: ???
-    </a> </p>
-    <p><a href = '/write/:'>
-      title: ???
-      author: ???  date: ???
-    </a></p>
+    </a> <button onclick="location.href = '/edit'">수정하기</button></p>
+    <!-- Date.now는 현재시간을 리턴하는 함수. createdAt:{type:Date, default:Date.now}-->
+    
  </form>
 </body>
 </html>
