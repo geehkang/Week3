@@ -6,6 +6,10 @@ const app = express();
 const ejs = require('ejs');
 const port = 3000;
 
+// // mongodb 연결하기
+// mongoose.connect('mongodb://localhost/:27017/blog_database');
+// mongoose.Promise = global.Promise;
+
 // // routes의 good.js에서 body형식으로 json데이터를 post 메서드를 통해 보냈는데 req.body 가 undefined 라고 나온다.
 // // express라고 하는 프레임워크는 json데이터를 아무나 쓸 수 없게 만들어서 미들웨어 생성해 이게 json데이터를 parsing 해주어야한다.
 // 순서에주의하기: https://www.youtube.com/watch?v=bWiW7tLtlJM&list=PL4cUxeGkcC9jBcybHMTIia56aV21o2cZ8&index=8
@@ -15,10 +19,16 @@ app.use(express.json());
 const journalRouter = require('./routes/api')
 app.use('/api', [journalRouter])
 
-// db정보 정리한 schemas에서 데이터 가져오기 위해 연결
-const connect = require('./schemas')
+// db 연결
+const connect = require('./schemas');
+const { default: mongoose } = require('mongoose');
 connect();
 
+// error handling middleware
+app.use(function(err, req, res, next){
+  // console.log(err);
+  res.status(422).send({error: err.message})
+});
 
 // view 템플릿으로 ejs형식을 이용하겠다
 app.set('view engine','ejs');
@@ -36,7 +46,7 @@ app.get('/write', (req, res) => {
 // // //  게시글 조회 페이지 연결
 // router.get('/read/:Id', (req, res) => {
 //   journal.find({ id: Number(req.params.id) }, (err, user) => {
-//     res.render('read', { journals: journal });
+//     res.render('read', { journal: journal });
 //   });
 // });
 // // //  게시글 수정 페이지 연결
