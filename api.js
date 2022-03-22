@@ -1,38 +1,73 @@
 const express = require('express');
 const router = express.Router();
+const Journal = require('../schemas/journal');
 
 
 // // '/' 이지만 app.js를 보면 /로 접속하는건 root page이고 /api로 접속해야 되므로 여기서의 /는 /api가 생략됨을 의미한다.
 
-router.get('/', (req, res) => {
-    res.send({type:'GET'});
+router.get('/', (req, res,next) => {
+    Journal.find({}).then(function(journal){
+        res.send(journal);
+    })
     // res.json({
     //     journal: journal
     // });
 });
+// Post.find({})
+//   .sort('-createdAt')
+//   .exec(function(err, posts){ ... })
 
-router.post('/write', (req, res) => {
-    console.log(req.body);
-    res.send({
-      type:'POST',
-     title: req.body.title,
-    author: req.body.author,
-  password: req.body.password,
-   content: req.body.content,
-    //   date: req.body.date
+router.post('/write', (req, res, next) => {
+        // console.log(req.body); req.body는 우리가 요청보내는 input 값들! such as title, author etc.
+        // 위의 const Journal = require('../schemas/journal');와 연관
+        Journal.create(req.body).then(function(journal){
+            res.send(journal);
+        }).catch(next);
+//     res.send({
+//       type:'POST',
+//      title: req.body.title,
+//     author: req.body.author,
+//   password: req.body.password,
+//    content: req.body.content,
+//       date: req.body.date
+//     });
+});
+    // json data thunder client로 post방식 테스트할때, 전부 ""(쌍따옴표)형식으로 해야한다. 아래예시
+    // {  "title": "첫번째", "author": "강", "password": "1234","content": "제발..!",  "date": "" }
+
+// router.post("/write", async (req, res) => {
+// 	const { title, author, password, content, date} = req.body;
+
+//   const journal = await journal.find({ ObjectId });
+//   if (journal.length) {
+//     return res.status(400).json({ success: false, errorMessage: "이미 있는 데이터입니다." });
+//   }
+
+//   const createdJournals = await journal.create({ title, author, password, content, date });
+
+//   res.json({ journals: createdJournals });
+// });
+
+
+router.get('/read/:id', (req, res,next) => {
+    Journal.findOne({_id: req.params.id}).then(function(journal){
+        res.send(journal);
+    })
+});
+
+// findOne 줄 없이는 response로 나온 값은 변경하기 전 (outdated) 값이 나오는데 실질적으로는 바뀐상태다. 그래도 거슬린다면 findOne문장이 쓰인 줄이 들어가면 response값도 업데이트된 값이 나온다.
+router.put('/edit/:id', (req, res,next) => {
+    Journal.findByIdAndUpdate({_id: req.params.id}, req.body).then(function(){
+        Journal.findOne({_id: req.params.id}).then(function(journal){
+            res.send(journal);
+        })
     });
 });
 
-router.get('/read', (req, res) => {
-    res.send({type:'GET'});
-});
-
-router.put('/edit/:id', (req, res) => {
-    res.send({type:'PUT'});
-});
-
-router.delete('/edit/:id', (req, res) => {
-    res.send({type:'DELETE'});
+router.delete('/edit/:id', (req, res,next) => {
+    Journal.findByIdAndRemove({_id: req.params.id}).then(function(journal){
+        res.send(journal);
+    })
 });
 
 
@@ -58,7 +93,7 @@ router.delete('/edit/:id', (req, res) => {
 // router.post('/write', async (req, res)=>{
 //     const { goodsId, name, thumbnailUrl, category, price } = req.body;
 //     // 위와 같은 표현: const goodsId = req.body.goodsId;
-//     // name, thumbnail 등도 위처럼 적어주려면 줄이 길어지므로 경제적으로 한번에 묶어서 축약형으로 쓰자
+//     // name, thumbnail 등도 위처럼 적어주면 줄이 길어지므로 경제적으로 한번에 묶어서 축약형으로 쓰자
 
 //     // find() 함수는 promise를 반환하므로 async함수로 만들어야 await을 사용할 수 있다.
 //     const goods = await Goods.find({ goodsId });
